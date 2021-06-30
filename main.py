@@ -18,3 +18,6 @@ reposter_thread = threading.Thread(target=run_kijiji_auto_reposter)
 
 kijiji_manager_thread.start()
 reposter_thread.start()
+
+# Wait for thread to finish
+kijiji_manager_thread.join()
