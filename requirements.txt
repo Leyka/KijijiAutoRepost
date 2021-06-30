@@ -1,0 +1,4 @@
+cryptography
+mechanize
+bs4
+kijiji-manager
