@@ -7,7 +7,7 @@ from kijiji_manager.app import create_app
 
 def run_kijiji_manager():
 	app = create_app('/config/kijiji-manager.cfg')
-	app.run(host='localhost', port=5000)
+	app.run(host='0.0.0.0', port=5000)
 
 def run_kijiji_auto_reposter():
 	reposter = KijijiAutoReposter()
