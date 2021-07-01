@@ -16,7 +16,7 @@ class KijijiAutoReposter:
 			os.environ['KIJIJI_password']
 			os.environ['KIJIJI_key']
 		except KeyError as e:
-			print(f'ERROR: Environment variable `{e.args[0]}` not set.')
+			print(f'ERROR: Environment variable `{e.args[0]}` not set.', flush=True)
 		self.br = mechanize.Browser()
 
 	def check_kijiji_manager(self):
@@ -29,7 +29,7 @@ class KijijiAutoReposter:
 	def wait_for_kijiji_manager(self):
 		while not self.check_kijiji_manager():
 			delay = 5*60
-			print(f'WARNING: Waiting {delay}s before checking Kijiji Manager again.')
+			print(f'WARNING: Waiting {delay}s before checking Kijiji Manager again.', flush=True)
 			time.sleep(delay)
 
 	def login(self):
@@ -46,25 +46,25 @@ class KijijiAutoReposter:
 	def wait_for_login(self):
 		while not self.login():
 			delay = 5*60
-			print(f'WARNING: Waiting {delay}s before logging into Kijiji Manager again.')
+			print(f'WARNING: Waiting {delay}s before logging into Kijiji Manager again.', flush=True)
 			time.sleep(delay)
 
 	def repost(self):
-		print('INFO: Reposting all ads.')
+		print('INFO: Reposting all ads.', flush=True)
 		self.br.open('http://127.0.0.1:5000/repost_all')
 		soup = BeautifulSoup(self.br.response().read(), 'html.parser')
 		for ad in soup.find('ul', class_='flashes').children:
 			ad_id = re.search(r'(?<=\\)[0-9]+(?=.xml)', ad.string)
 			if ad_id:
-				print(f"WARNING: Couldn't repost ad #{ad_id.group(0)}. XML file doesn't exist.")
+				print(f"WARNING: Couldn't repost ad #{ad_id.group(0)}. XML file doesn't exist.", flush=True)
 
 	def wait_for_next_repost(self):
 		t = time.localtime()
 		delay_today = 86400 - t.tm_hour*3600 - t.tm_min*60 - t.tm_sec
 		delay_tomorrow = (8 + (23-8)*random.random()) * 3600
 		t_next = time.localtime(time.mktime(t)+delay_today+delay_tomorrow)
-		print(f'Next repost will be on {time.strftime("%a, %d %b %Y %H:%M:%S", t_next)}.')
-		time.sleep(20)
+		print(f'Next repost will be on {time.strftime("%a, %d %b %Y %H:%M:%S", t_next)}.', flush=True)
+		time.sleep(60)
 		# time.sleep(delay_today + delay_tomorrow)
 
 	def run(self):
