@@ -18,6 +18,7 @@ class KijijiAutoReposter:
 		except KeyError as e:
 			print(f'ERROR: Environment variable `{e.args[0]}` not set.', flush=True)
 		self.br = mechanize.Browser()
+		self.fernet = Fernet(os.environ['KIJIJI_key'].encode())
 
 	def check_kijiji_manager(self):
 		try:
@@ -36,8 +37,8 @@ class KijijiAutoReposter:
 		self.br.open('http://127.0.0.1:5000')
 		if urlparse(self.br.geturl()).path == '/login':
 			self.br.select_form(id='login')
-			self.br['email'] = os.environ['KIJIJI_email']
-			self.br['password'] = os.environ['KIJIJI_password']
+			self.br['email'] = self.fernet.decrypt(os.environ['KIJIJI_email'].encode())
+			self.br['password'] = self.fernet.decrypt(os.environ['KIJIJI_password'].encode())
 			self.br.submit()
 		if 'Welcome back,' in str(self.br.response().read()):
 			return True
