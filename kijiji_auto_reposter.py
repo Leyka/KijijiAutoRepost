@@ -55,7 +55,7 @@ class KijijiAutoReposter:
 		self.br.open('http://127.0.0.1:5000/repost_all')
 		soup = BeautifulSoup(self.br.response().read(), 'html.parser')
 		for ad in soup.find('ul', class_='flashes').children:
-			ad_id = re.search(r'(?<=\\)[0-9]+(?=.xml)', ad.string)
+			ad_id = re.search(r'(?<=[\\/])[0-9]+(?=.xml)', ad.string)
 			if ad_id:
 				print(f"WARNING: Couldn't repost ad #{ad_id.group(0)}. XML file doesn't exist.", flush=True)
 
