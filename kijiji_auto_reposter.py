@@ -65,8 +65,7 @@ class KijijiAutoReposter:
 		delay_tomorrow = (8 + (23-8)*random.random()) * 3600
 		t_next = time.localtime(time.mktime(t)+delay_today+delay_tomorrow)
 		print(f'Next repost will be on {time.strftime("%a, %d %b %Y %H:%M:%S", t_next)}.', flush=True)
-		time.sleep(60)
-		# time.sleep(delay_today + delay_tomorrow)
+		time.sleep(delay_today + delay_tomorrow)
 
 	def run(self):
 		while True:
